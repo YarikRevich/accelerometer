@@ -1,3 +1,0 @@
-/Users/yaroslavsvitlytskyi/STM32CubeIDE/workspace_1.14.0/accelerometer/cmake-build-debug/CMakeFiles/accelerometer.elf.dir
-/Users/yaroslavsvitlytskyi/STM32CubeIDE/workspace_1.14.0/accelerometer/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/yaroslavsvitlytskyi/STM32CubeIDE/workspace_1.14.0/accelerometer/cmake-build-debug/CMakeFiles/rebuild_cache.dir

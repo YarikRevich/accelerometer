@@ -1,0 +1,14 @@
+// Contains API declaration for response content container.
+
+syntax = "proto3";
+
+package accelerometer;
+
+import "Content/data.proto";
+
+// Represents response container sent from the board to the client.
+message ResponseContainer {
+    oneof content {
+        DataBusResponseContent dataBus = 1;
+    }
+}
