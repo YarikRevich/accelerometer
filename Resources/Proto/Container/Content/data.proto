@@ -1,0 +1,26 @@
+// Contains API declaration for board data bus.
+
+syntax = "proto3";
+
+package accelerometer;
+
+// Represents all the available data types, which can be transferred via data bus.
+enum DataType {
+    DataNone = 0; // Stub enum to handle serialization.
+    Raw = 1;
+    Full = 2;
+    Infrared = 3;
+    Visible = 4;
+}
+
+// Represents data bus request content send from the client to the board.
+message DataBusRequestContent {
+    DataType dataType = 1;
+}
+
+// Represents data bus response content send to the client from the board.
+message DataBusResponseContent {
+    uint32 deviceId = 1;
+    DataType dataType = 2;
+    int32 value = 3;
+}

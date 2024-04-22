@@ -49,11 +49,11 @@ else ()
     add_compile_options(-Og -g)
 endif ()
 
-include_directories(Core/Inc Drivers/STM32L4xx_HAL_Driver/Inc Drivers/STM32L4xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32L4xx/Include Drivers/CMSIS/Include)
+include_directories(Core/Inc Drivers/STM32L4xx_HAL_Driver/Inc Drivers/STM32L4xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32L4xx/Include Drivers/CMSIS/Include Drivers/BSP/Components/lsm6dso Drivers/BSP/Components/lis2dw12 Drivers/BSP/Components/lis2mdl Drivers/BSP/Components/hts221 Drivers/BSP/Components/lps22hh Drivers/BSP/Components/stts751 Drivers/BSP/IKS01A3 Drivers/BSP/Components/Common Drivers/BSP/custom ThirdParty/MEMS/Inc External/Proto/Buffer/Request External/Proto/Buffer/Response External/Proto/Codec External/Proto/Helper External/Proto/Generated ThirdParty/EmbeddedProto/Inc External/Proto/Generated/Content External/State External/Tools/Mutex External/Tools/Sequence External/Tools/Converter MEMS/App MEMS/Target External/Sensor)
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx)
 
-file(GLOB_RECURSE SOURCES "Core/*.*" "X-CUBE-MEMS1/*.*" "Drivers/*.*")
+file(GLOB_RECURSE SOURCES "Core/*.*" "Drivers/*.*" "External/*.*" "ThirdParty/*.*")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/)
 
