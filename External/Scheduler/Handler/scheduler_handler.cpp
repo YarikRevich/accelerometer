@@ -3,8 +3,6 @@
 
 int SchedulerHandler::handle_request() {
     if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) == SET) {
-        Indicator::toggle_invalid_request();
-
         if (try_process_request_container() != EXIT_SUCCESS) {
             return EXIT_FAILURE;
         }

@@ -36,8 +36,6 @@ uint8_t LIS2DW12::get_device_id() {
 };
 
 void LIS2DW12::enable() {
-    // LIS2DW12_ACC_SetOutputDataRate_When_Enabled
-
     lis2dw12_ctrl1_t ctrl1;
     lis2dw12_ctrl3_t ctrl3;
 
@@ -66,57 +64,6 @@ void LIS2DW12::enable() {
 
     ctrl6.low_noise = ((uint8_t) LIS2DW12_HIGH_PERFORMANCE & 0x10U) >> 4;
     write_byte_i2c(LIS2DW12_CTRL6, (uint8_t *) &ctrl6, 1);
-
-
-
-
-
-
-
-//    ret = lis2dw12_read_reg(ctx, LIS2DW12_CTRL1, (uint8_t *) &ctrl1, 1);
-//
-//    if (ret == 0)
-//    {
-//        ctrl1.odr = (uint8_t) LIS2DW12_XL_ODR_12Hz5;
-//        ret = lis2dw12_write_reg(ctx, LIS2DW12_CTRL1, (uint8_t *) &ctrl1, 1);
-//    }
-//
-//    if (ret == 0)
-//    {
-//        ret = lis2dw12_read_reg(ctx, LIS2DW12_CTRL3, (uint8_t *) &ctrl3, 1);
-//    }
-//
-//    if (ret == 0)
-//    {
-//        ctrl3.slp_mode = ((uint8_t) LIS2DW12_XL_ODR_12Hz5 & 0x30U) >> 4;
-//        ret = lis2dw12_write_reg(ctx, LIS2DW12_CTRL3, (uint8_t *) &ctrl3, 1);
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    lis2dw12_ctrl1_t ctrl1;
-//
-//    ctrl1.mode = ((uint8_t) LIS2DW12_SINGLE_LOW_LOW_NOISE_PWR_12bit & 0x0CU) >> 2;
-//    ctrl1.lp_mode = (uint8_t) LIS2DW12_SINGLE_LOW_LOW_NOISE_PWR_12bit & 0x03U ;
-//    write_byte_i2c(LIS2DW12_CTRL1, (uint8_t *) &ctrl1, 1);
-//
-//    lis2dw12_ctrl6_t ctrl6;
-//
-//    ctrl6.low_noise = ((uint8_t) LIS2DW12_SINGLE_LOW_LOW_NOISE_PWR_12bit & 0x10U) >> 4;
-//    write_byte_i2c(LIS2DW12_CTRL6, (uint8_t *) &ctrl6, 1);
 }
 
 void LIS2DW12::RawDataTypeValue::set_x(int16_t value) {

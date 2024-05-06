@@ -7,12 +7,12 @@ void Scheduler::schedule_tick() {
 
             return EXIT_FAILURE;
         }
-//
-//        if (SchedulerHandler::handle_response() != EXIT_SUCCESS) {
-//            Indicator::toggle_invalid_response();
-//
-//            return EXIT_FAILURE;
-//        }
+
+        if (SchedulerHandler::handle_response() != EXIT_SUCCESS) {
+            Indicator::toggle_invalid_response();
+
+            return EXIT_FAILURE;
+        }
 
         return EXIT_SUCCESS;
     });

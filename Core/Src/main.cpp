@@ -23,8 +23,6 @@
 #include "usart.h"
 #include "gpio.h"
 
-#include "scheduler.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -94,12 +92,10 @@ int main(void) {
     MX_USART2_UART_Init();
 
     /* USER CODE BEGIN 2 */
-
     Scheduler::schedule_configuration();
 
     State::get_task_sequence()->traverse_until_succeed([](
-    const std::function<int()>& callback) -> int
-    {
+            const std::function<int()> &callback) -> int {
         return callback();
     });
 
@@ -108,28 +104,12 @@ int main(void) {
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
-//        Scheduler::schedule_tick();
-//
-//        State::get_task_sequence()->traverse_with_skip([](
-//        const std::function<int()>& callback) -> int
-//        {
-//            return callback();
-//        });
-//
+        Scheduler::schedule_tick();
 
-        int device = LIS2DW12::get_device_id();
-
-        if (device == 0x44) {
-            LIS2DW12::RawDataTypeValue data = LIS2DW12::read_raw();
-
-            char buff[4];
-
-            sprintf(buff, "%d", (int)data.get_x());
-
-//            uint8_t text[] = "itworks";
-
-            HAL_UART_Transmit(&huart2, (uint8_t *)&buff, 10, 100);
-        }
+        State::get_task_sequence()->traverse_with_skip([](
+                const std::function<int()> &callback) -> int {
+            return callback();
+        });
 
         /* USER CODE END WHILE */
 
@@ -159,7 +139,13 @@ void SystemClock_Config(void) {
     RCC_OscInitStruct.MSIState = RCC_MSI_ON;
     RCC_OscInitStruct.MSICalibrationValue = 0;
     RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
-    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
+    RCC_OscInitStruct.PLL.PLLM = 1;
+    RCC_OscInitStruct.PLL.PLLN = 40;
+    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
+    RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+    RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         Error_Handler();
     }
@@ -168,12 +154,12 @@ void SystemClock_Config(void) {
     */
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
                                   | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
-    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK) {
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
         Error_Handler();
     }
 }

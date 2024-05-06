@@ -2,7 +2,7 @@
 
 RequestBuffer ProtoCodec::request_buffer = RequestBuffer();
 
-ResponseBuffer ProtoCodec::response_buffer = ResponseBuffer(100);
+ResponseBuffer ProtoCodec::response_buffer = ResponseBuffer(300);
 
 accelerometer::RequestContainer ProtoCodec::request_container =
         accelerometer::RequestContainer();

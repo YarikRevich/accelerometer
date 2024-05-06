@@ -22,6 +22,8 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
+#include "scheduler.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -57,7 +59,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BSP_BUTTON_EXTI_IRQn EXTI15_10_IRQn
 
 /* USER CODE BEGIN Private defines */
 

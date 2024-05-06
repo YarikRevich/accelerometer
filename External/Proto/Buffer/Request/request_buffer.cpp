@@ -32,7 +32,6 @@ bool RequestBuffer::peek(uint8_t &byte) const {
     return result;
 }
 
-
 bool RequestBuffer::advance() {
     const bool result = this->index < this->size;
     if (result) {

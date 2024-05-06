@@ -40,8 +40,13 @@ class Client:
 
         request_container.dataBus.CopyFrom(data_bus_request)
 
+        print(request_container)
+
         data_length = request_container.ByteSize().to_bytes(1, "big")
         data = request_container.SerializeToString()
+
+        print(data_length)
+        print(data)
 
         self.connection.write(data_length)
         self.connection.write(data)
