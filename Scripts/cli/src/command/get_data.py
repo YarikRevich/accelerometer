@@ -15,9 +15,6 @@ class GetDataCommand:
     """Represents 'get_data' command."""
 
     RAW_TYPE: str = "raw"
-    FULL_TYPE: str = "full"
-    INFRARED_TYPE: str = "infrared"
-    VISIBLE_TYPE: str = "visible"
 
     @staticmethod
     def handle(device: str, baud_rate: int, type: str, series: int, export: str, generate: bool, figure: str) -> None:
@@ -33,15 +30,6 @@ class GetDataCommand:
             match type:
                 case GetDataCommand.RAW_TYPE:
                     data.append(GetDataCommand.process_get_raw_data(device, baud_rate))
-
-                case GetDataCommand.FULL_TYPE:
-                    data.append(GetDataCommand.process_get_full_data(device, baud_rate))
-
-                case GetDataCommand.INFRARED_TYPE:
-                    data.append(GetDataCommand.process_get_infrared_data(device, baud_rate))
-
-                case GetDataCommand.VISIBLE_TYPE:
-                    data.append(GetDataCommand.process_get_visible_data(device, baud_rate))
 
                 case _:
                     logging.error("Given data type is not valid.")
@@ -78,24 +66,3 @@ class GetDataCommand:
 
         with Client(device, baud_rate) as client:
             return client.send_data_bus_request_raw_data_type_content()
-
-    @staticmethod
-    def process_get_full_data(device: str, baud_rate: int) -> RetrievedDataDto:
-        """Processes request to retrieve 'full' data from the device"""
-
-        with Client(device, baud_rate) as client:
-            return client.send_data_bus_request_full_data_type_content()
-
-    @staticmethod
-    def process_get_infrared_data(device: str, baud_rate: int) -> RetrievedDataDto:
-        """Processes request to retrieve 'infrared' data from the device"""
-
-        with Client(device, baud_rate) as client:
-            return client.send_data_bus_request_infrared_data_type_content()
-
-    @staticmethod
-    def process_get_visible_data(device: str, baud_rate: int) -> RetrievedDataDto:
-        """Processes request to retrieve 'visible' data from the device"""
-
-        with Client(device, baud_rate) as client:
-            return client.send_data_bus_request_visible_data_type_content()

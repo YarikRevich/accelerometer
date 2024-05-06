@@ -2,8 +2,6 @@
 
 bool State::device_configured = false;
 
-int State::processed_requests = 0;
-
 int State::current_response_nonce = 1;
 
 Mutex State::button_mutex = Mutex();
@@ -21,14 +19,6 @@ bool State::is_device_configured() {
 void State::set_device_configured(bool value) {
     device_configured = value;
 }
-
-int State::get_processed_requests() {
-    return processed_requests;
-};
-
-void State::increase_processed_requests() {
-    processed_requests++;
-};
 
 int State::allocate_response_nonce() {
     return current_response_nonce++;

@@ -8,9 +8,13 @@ package accelerometer;
 enum DataType {
     DataNone = 0; // Stub enum to handle serialization.
     Raw = 1;
-    Full = 2;
-    Infrared = 3;
-    Visible = 4;
+}
+
+//
+message RawDataTypeValue {
+    int32 x = 1;
+    int32 y = 2;
+    int32 z = 3;
 }
 
 // Represents data bus request content send from the client to the board.
@@ -22,5 +26,8 @@ message DataBusRequestContent {
 message DataBusResponseContent {
     uint32 deviceId = 1;
     DataType dataType = 2;
-    int32 value = 3;
+    int32 nonce = 3;
+    oneof value {
+        RawDataTypeValue raw = 4;
+    }
 }

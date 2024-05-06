@@ -12,7 +12,7 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
-from Content import data_pb2 as Content_dot_data__pb2
+from proto.Content import data_pb2 as Content_dot_data__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eresponse.proto\x12\raccelerometer\x1a\x12\x43ontent/data.proto\"X\n\x11ResponseContainer\x12\x38\n\x07\x64\x61taBus\x18\x01 \x01(\x0b\x32%.accelerometer.DataBusResponseContentH\x00\x42\t\n\x07\x63ontentb\x06proto3')

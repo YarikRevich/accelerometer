@@ -10,10 +10,12 @@
 #define WHO_AM_I (0x0F)
 
 #define LIS2DW12_CTRL1 0x20
+#define LIS2DW12_CTRL3 0x22
 #define LIS2DW12_CTRL6 0x25
 
 
-#define LIS2DW12_SINGLE_LOW_LOW_NOISE_PWR_12bit 0x04
+#define LIS2DW12_HIGH_PERFORMANCE 0x04
+#define LIS2DW12_XL_ODR_12Hz5 0x02
 //#define LIS2DW12_SINGLE_LOW_LOW_NOISE_PWR_12bit 0x18
 
 #define LIS2DW12_OUT_X_L (0x28)
@@ -45,96 +47,90 @@ public:
      * @return read device id.
      */
     static uint8_t get_device_id();
-//
-//    /**
-//     * Resets light sensor to the default state, initializing device with default settings.
-//     */
-//    static void reset();
-//
-    /**
-     * Reads raw data in general format.
-     *
-     * @return read raw data in general format.
-     */
-    static void read_data();
 
-//
-//    /**
-//     * Sets raw interruption threshold.
-//     *
-//     * @param low - given low state.
-//     * @param high - given high state.
-//     */
-//    static void invoke_raw_interrupt_threshold(uint16_t low, uint16_t high);
-//
-//    /**
-//     * Sets LUX interruption configurations.
-//     *
-//     * @param low - given low state.
-//     * @param high - given high state.
-//     */
-//    static void invoke_lux_interrupt(uint16_t low, uint16_t high);
-//
-//    /**
-//     * Retrieves integral time option from the sensor.
-//     *
-//     * @return read value.
-//     */
-//    static uint8_t get_integral_time();
-//
-//    /**
-//    * Sets integral time option to the sensor.
-//    *
-//    * @param src - given value to be set.
-//    */
-//    static void set_integral_time(uint8_t src);
-//
-//    /**
-//    * Retrieves the value of gain option from the sensor.
-//    *
-//    * @return retrieved value.
-//    */
-//    static uint8_t get_gain();
-//
-//    /**
-//     * Sets the value of gain option to the sensor.
-//     *
-//     * @param src - given value to be set.
-//     */
-//    static void set_gain(uint8_t src);
-//
+    /**
+     * Represents value definition for raw data type.
+     */
+    class RawDataTypeValue {
+    public:
+        /**
+         * Sets X value compound.
+         *
+         * @param value given X value compound.
+         */
+        void set_x(int16_t value);
+
+        /**
+         * Sets Y value compound.
+         *
+         * @param value given Y value compound.
+         */
+        void set_y(int16_t value);
+
+        /**
+         * Sets Z value compound.
+         *
+         * @param value given Z value compound.
+         */
+        void set_z(int16_t value);
+
+        /**
+         * Retrieves X value compound.
+         *
+         * @return retrieved X value compound.
+         */
+        [[nodiscard]] int16_t get_x() const;
+
+        /**
+         * Retrieves Y value compound.
+         *
+         * @return retrieved Y value compound.
+         */
+        [[nodiscard]] int16_t get_y() const;
+
+        /**
+         * Retrieves Z value compound.
+         *
+         * @return retrieved Z value compound.
+         */
+        [[nodiscard]] int16_t get_z() const;
+    private:
+        /**
+         * Represents X value compound.
+         */
+        int16_t x;
+
+        /**
+         * Represents Y value compound.
+         */
+        int16_t y;
+
+        /**
+         * Represents Z value compound.
+         */
+        int16_t z;
+    };
+
+    /**
+     * Reads raw data type value.
+     *
+     * @return read raw data type value.
+     */
+    static RawDataTypeValue read_raw();
 private:
     /**
      * Enables the sensor.
      */
     static void enable();
-//
-//    /**
-//     * Disables the sensor.
-//     */
-//    static void disable();
-//
-//    /**
-//    * Reads value from the zero channel.
-//    *
-//    * @return read value.
-//    */
-//    static uint16_t read_channel0();
-//
-//    /**
-//     * Reads value from the first channel.
-//     *
-//     * @return read value.
-//     */
-//    static uint16_t read_channel1();
-//
+
     /**
-     * Reads combined command by bytes using I2C bone.
+     * Reads single byte command using I2C bone.
      *
-     * @param src - given command to be read.
+     * @param src - given command to be performed.
      * @return read value.
      */
     static uint8_t read_byte(uint8_t src);
+
 //
 //    /**
 //     * Reads combined command by word using I2C bone.
@@ -144,31 +140,32 @@ private:
 //     */
 //    static uint16_t read_word(uint8_t src);
 //
-//    /**
-//     * Writes combined command by bytes via I2C bone.
-//     *
-//     * @param command - given command to be written.
-//     * @param value - given value to be written to the given command.
-//     */
-//    static void write_byte(uint8_t src, uint8_t value);
+    /**
+     * Writes combined command by bytes via I2C bone.
+     *
+     * @param command - given command to be written.
+     * @param value - given value to be written to the given command.
+     */
+    static void write_byte(uint8_t src, uint8_t value);
 
     /**
      * Writes raw byte via I2C bone.
      *
      * @param command - given command to be written.
      * @param value - given value to be written to the given command.
+     * @param size - given output buffer size.
      */
-    static void write_byte_i2c(uint8_t command, uint8_t* buffer);
-
-//    static void read_bytes_i2c(uint8_t command, uint8_t* buffer, uint8_t size);
+    static void write_byte_i2c(uint8_t command, uint8_t* buffer, uint16_t size);
 
     /**
      * Reads raw byte via I2C bone.
      *
      * @param command - given command to be read.
+     * @param data - given output buffer.
+     * @param size - given output buffer size.
      * @return read byte.
      */
-    static int read_byte_i2c(uint8_t command);
+    static void read_byte_i2c(uint8_t command, uint8_t* data, uint16_t size);
 //
 //    /**
 //     * Reads raw word via I2C bone.
