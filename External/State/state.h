@@ -27,18 +27,6 @@ public:
     static void set_device_configured(bool value);
 
     /**
-     * Retrieves amount of processed events.
-     *
-     * @return amount of processed events.
-     */
-    static int get_processed_requests();
-
-    /**
-     * Increases amount of processed events.
-     */
-    static void increase_processed_requests();
-
-    /**
      * Allocates new response nonce.
      *
      * @return allocated response nonce.
@@ -71,11 +59,6 @@ private:
      * Represents device configured mode.
      */
     static bool device_configured;
-
-    /**
-     * Represents amount of processed incoming requests.
-     */
-    static int processed_requests;
 
     /**
      * Represents current(latest) response nonce.

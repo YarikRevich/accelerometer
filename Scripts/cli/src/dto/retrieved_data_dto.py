@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Union
 
 
 class DataTypeCompound(Enum):
@@ -7,14 +8,18 @@ class DataTypeCompound(Enum):
     # Represents 'raw' data type.
     RAW = 'Raw'
 
-    # Represents 'full' data type.
-    FULL = 'Full'
 
-    # Represents 'infrared' data type.
-    INFRARED = 'Infrared'
+class RawDataTypeValue:
+    """Represents data compound used to represent raw data type result value."""
 
-    # Represents 'visible' data type.
-    VISIBLE = 'Visible'
+    # Represents X value compound.
+    x: int
+
+    # Represents Y value compound.
+    y: int
+
+    # Represents Z value compound.
+    z: int
 
 
 class RetrievedDataDto:
@@ -27,12 +32,12 @@ class RetrievedDataDto:
     data_type: DataTypeCompound
 
     # Represents value of the received result.
-    value: int
+    value: Union[RawDataTypeValue]
 
     # Represents nonce of the received result.
     nonce: int
 
-    def __init__(self, device_id: int, data_type: DataTypeCompound, value: int, nonce: int):
+    def __init__(self, device_id: int, data_type: DataTypeCompound, value: Union[RawDataTypeValue], nonce: int):
         self.device_id = device_id
         self.data_type = data_type
         self.value = value
