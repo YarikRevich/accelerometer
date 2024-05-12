@@ -92,12 +92,12 @@ int main(void) {
     MX_USART2_UART_Init();
 
     /* USER CODE BEGIN 2 */
-    Scheduler::schedule_configuration();
-
-    State::get_task_sequence()->traverse_until_succeed([](
-            const std::function<int()> &callback) -> int {
-        return callback();
-    });
+//    Scheduler::schedule_configuration();
+//
+//    State::get_task_sequence()->traverse_until_succeed([](
+//            const std::function<int()> &callback) -> int {
+//        return callback();
+//    });
 
     /* USER CODE END 2 */
 

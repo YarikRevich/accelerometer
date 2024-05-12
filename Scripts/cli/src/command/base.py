@@ -15,12 +15,12 @@ class BaseCommand:
         GetAvailableDevicesCommand.handle()
 
     @staticmethod
-    def get_data(device: str, baud_rate: int, type: str, series: int = 1, export: str = None, generate: bool = False,
-                 figure: str = Visualizer.PLOT_FIGURE) -> None:
+    def get_data(device: str, baud_rate: int, type: str, interruption: int = 0.3, series: int = 1, export: str = None,
+                 generate: bool = False, figure: str = Visualizer.PLOT_FIGURE) -> None:
         """
         Returns sensor data of selected type. The available data types are 'raw', 'full', 'infrared', 'visible'.
         Allows to perform a series of measurements and export that data to a graph view. The available figure types are
         'scatter', 'plot', 'stairs' and 'bar'.
         """
 
-        GetDataCommand.handle(device, baud_rate, type, series, export, generate, figure)
+        GetDataCommand.handle(device, baud_rate, interruption, type, series, export, generate, figure)
