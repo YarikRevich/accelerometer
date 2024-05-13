@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import Union
 
 from serial import Serial
@@ -11,16 +12,27 @@ from proto import response_pb2 as Response
 
 from dto import DataTypeCompound
 from dto import RetrievedDataDto
+from dto import RawDataTypeValue
 
 class Client:
     """Represents client used to connect to remote device via serial port."""
 
+    # Represents chosen device location.
+    device: str
+
+    # Represents chosen device baud rate.
+    baud_rate: int
+
+    # Represents interruption duration between requests.
+    interruption: int
+
     # Represents a connection with serial device.
     connection: Serial
 
-    def __init__(self, device: str, baud_rate: int):
+    def __init__(self, device: str, baud_rate: int, interruption: int):
         self.device = device
         self.baud_rate = baud_rate
+        self.interruption = interruption
 
     def __enter__(self) -> object:
         try:
@@ -40,15 +52,13 @@ class Client:
 
         request_container.dataBus.CopyFrom(data_bus_request)
 
-        print(request_container)
-
         data_length = request_container.ByteSize().to_bytes(1, "big")
         data = request_container.SerializeToString()
 
-        print(data_length)
-        print(data)
-
         self.connection.write(data_length)
+
+        time.sleep(self.interruption)
+
         self.connection.write(data)
 
         result_length_raw = self.connection.read(3)
@@ -70,7 +80,8 @@ class Client:
         return RetrievedDataDto(
             data.dataBus.deviceId,
             DataTypeCompound.RAW,
-            data.dataBus.value,
+            RawDataTypeValue(
+                data.dataBus.raw.x, data.dataBus.raw.y, data.dataBus.raw.z),
             data.dataBus.nonce)
 
     def __exit__(self, exc_type, exc_val, exc_tb):

@@ -21,6 +21,11 @@ class RawDataTypeValue:
     # Represents Z value compound.
     z: int
 
+    def __init__(self, x: int, y: int, z: int):
+        self.x = x
+        self.y = y
+        self.z = z
+
 
 class RetrievedDataDto:
     """Represents dto used to hold the result of a 'get_data' command."""

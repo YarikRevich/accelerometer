@@ -17,7 +17,7 @@ class GetDataCommand:
     RAW_TYPE: str = "raw"
 
     @staticmethod
-    def handle(device: str, baud_rate: int, type: str, series: int, export: str, generate: bool, figure: str) -> None:
+    def handle(device: str, baud_rate: int, interruption: int, type: str, series: int, export: str, generate: bool, figure: str) -> None:
         """Handles the execution of command wrapper."""
 
         if not is_device_available(device):
@@ -29,7 +29,7 @@ class GetDataCommand:
         for _ in range(series):
             match type:
                 case GetDataCommand.RAW_TYPE:
-                    data.append(GetDataCommand.process_get_raw_data(device, baud_rate))
+                    data.append(GetDataCommand.process_get_raw_data(device, baud_rate, interruption))
 
                 case _:
                     logging.error("Given data type is not valid.")
@@ -61,8 +61,8 @@ class GetDataCommand:
             visualizer.save()
 
     @staticmethod
-    def process_get_raw_data(device: str, baud_rate: int) -> RetrievedDataDto:
+    def process_get_raw_data(device: str, baud_rate: int, interruption: int) -> RetrievedDataDto:
         """Processes request to retrieve 'raw' data from the device"""
 
-        with Client(device, baud_rate) as client:
+        with Client(device, baud_rate, interruption) as client:
             return client.send_data_bus_request_raw_data_type_content()
