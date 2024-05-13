@@ -12,6 +12,7 @@ from proto import response_pb2 as Response
 
 from dto import DataTypeCompound
 from dto import RetrievedDataDto
+from dto import RawDataTypeValue
 
 class Client:
     """Represents client used to connect to remote device via serial port."""
@@ -79,7 +80,8 @@ class Client:
         return RetrievedDataDto(
             data.dataBus.deviceId,
             DataTypeCompound.RAW,
-            data.dataBus.raw,
+            RawDataTypeValue(
+                data.dataBus.raw.x, data.dataBus.raw.y, data.dataBus.raw.z),
             data.dataBus.nonce)
 
     def __exit__(self, exc_type, exc_val, exc_tb):

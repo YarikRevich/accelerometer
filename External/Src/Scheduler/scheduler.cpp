@@ -18,20 +18,6 @@ void Scheduler::schedule_tick() {
     });
 }
 
-void Scheduler::schedule_status_check() {
-    State::get_task_sequence()->add([]() -> int {
-        if (State::is_device_configured() && LIS2DW12::is_available()) {
-            Indicator::toggle_action_success();
-        } else {
-            Indicator::toggle_action_failure();
-        }
-
-        State::get_button_mutex().unlock();
-
-        return EXIT_SUCCESS;
-    });
-}
-
 void Scheduler::schedule_configuration() {
     State::get_task_sequence()->add([]() -> int {
         if (LIS2DW12::is_available()) {
