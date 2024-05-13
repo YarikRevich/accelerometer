@@ -49,11 +49,11 @@ else ()
     add_compile_options(-Og -g)
 endif ()
 
-include_directories(Core/Inc Drivers/STM32L4xx_HAL_Driver/Inc Drivers/STM32L4xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32L4xx/Include Drivers/CMSIS/Include ThirdParty/MEMS/Inc External/Proto/Buffer/Request External/Proto/Buffer/Response External/Proto/Codec External/Proto/Helper External/Proto/Generated ThirdParty/EmbeddedProto/Inc External/Proto/Generated/Content External/State External/Tools/Mutex External/Tools/Sequence External/Tools/Converter External/Sensor External/Scheduler External/Scheduler/Handler External/Tools/Indicator)
+include_directories(Core/Inc Drivers/STM32L4xx_HAL_Driver/Inc Drivers/STM32L4xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32L4xx/Include Drivers/CMSIS/Include ThirdParty/MEMS/Inc ThirdParty/EmbeddedProto/Inc External/Inc/Proto/Buffer/Request External/Inc/Proto/Buffer/Response External/Inc/Proto/Codec External/Inc/Proto/Helper External/Inc/Proto/Generated External/Inc/Proto/Generated/Content External/Inc/State External/Inc/Tools/Mutex External/Inc/Tools/Sequence External/Inc/Tools/Converter External/Inc/Sensor External/Inc/Scheduler External/Inc/Scheduler/Handler External/Inc/Tools/Indicator)
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx)
 
-file(GLOB_RECURSE SOURCES "ThirdParty/*.*" "MEMS/*.*" "External/*.*" "Core/*.*" "Drivers/*.*")
+file(GLOB_RECURSE SOURCES "Core/*.*" "Drivers/*.*" "External/*.*" "ThirdParty/*.*")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/)
 
