@@ -27,10 +27,10 @@ class SetSettingsCommand:
 
         match type:
             case SetSettingsCommand.SET_SUSPEND_TYPE:
-                data = SetSettingsCommand.process_set_suspend_settings(device, baud_rate, interruption)
+                data = SetSettingsCommand.__process_set_suspend_settings(device, baud_rate, interruption)
 
             case SetSettingsCommand.SET_SERVE_TYPE:
-                data = SetSettingsCommand.process_set_serve_settings(device, baud_rate, interruption)
+                data = SetSettingsCommand.__process_set_serve_settings(device, baud_rate, interruption)
 
             case _:
                 logging.error("Given settings type is not valid.")
@@ -40,14 +40,14 @@ class SetSettingsCommand:
         logging.info("Settings has been successfully set.")
 
     @staticmethod
-    def process_set_suspend_settings(device: str, baud_rate: int, interruption: int) -> SetSettingsDto:
+    def __process_set_suspend_settings(device: str, baud_rate: int, interruption: int) -> SetSettingsDto:
         """Processes request to set 'set_suspend' setting to the device."""
 
         with Client(device, baud_rate, interruption) as client:
             return client.send_settings_bus_request_set_suspend_settings_type_content()
 
     @staticmethod
-    def process_set_serve_settings(device: str, baud_rate: int, interruption: int) -> SetSettingsDto:
+    def __process_set_serve_settings(device: str, baud_rate: int, interruption: int) -> SetSettingsDto:
         """Processes request to set 'set_serve' setting to the device."""
 
         with Client(device, baud_rate, interruption) as client:

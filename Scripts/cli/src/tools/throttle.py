@@ -4,7 +4,7 @@ import time
 THROTTLE_SHUTDOWN_DURATION: int = 30
 
 # Represents throttle request duration time.
-THROTTLE_REQUEST_DURATION: int = 2
+THROTTLE_REQUEST_DURATION: float = 0.2
 
 
 def perform_shutdown_await() -> None:
