@@ -53,6 +53,11 @@ int SchedulerHandler::try_process_response_container(const accelerometer::Reques
         if (SchedulerHandler::process_data_bus_request_content_response(content) != EXIT_SUCCESS) {
             return EXIT_FAILURE;
         }
+    } else if (ProtoHelper::is_settings_bus_request_container(content)) {
+
+        if (SchedulerHandler::process_settings_bus_request_content_response(content) != EXIT_SUCCESS) {
+            return EXIT_FAILURE;
+        }
     } else {
         return EXIT_FAILURE;
     }
@@ -111,26 +116,112 @@ int SchedulerHandler::process_data_bus_request_content_of_raw_data_type_response
     if (LIS2DW12::is_available()) {
         data_bus_response_content.set_deviceId(LIS2DW12::get_device_id());
 
-        LIS2DW12::RawDataTypeValue value = LIS2DW12::read_raw();
+        if (State::is_suspended()) {
+            data_bus_response_content.set_suspended(true);
 
-        raw_data_type_value.set_x(value.get_x());
-        raw_data_type_value.set_y(value.get_y());
-        raw_data_type_value.set_z(value.get_z());
+            raw_data_type_value.set_x(0);
+            raw_data_type_value.set_y(0);
+            raw_data_type_value.set_z(0);
+        } else {
+            data_bus_response_content.set_suspended(false);
 
-        data_bus_response_content.set_raw(raw_data_type_value);
+            LIS2DW12::RawDataTypeValue value = LIS2DW12::read_raw();
+
+            raw_data_type_value.set_x(value.get_x());
+            raw_data_type_value.set_y(value.get_y());
+            raw_data_type_value.set_z(value.get_z());
+        }
     } else {
         data_bus_response_content.set_deviceId(0);
 
-        raw_data_type_value.set_x(0);
-        raw_data_type_value.set_y(0);
-        raw_data_type_value.set_z(0);
+        data_bus_response_content.set_suspended(false);
 
-        data_bus_response_content.set_raw(raw_data_type_value);
+        raw_data_type_value.set_x(5);
+        raw_data_type_value.set_y(10);
+        raw_data_type_value.set_z(15);
     }
+
+    data_bus_response_content.set_raw(raw_data_type_value);
 
     data_bus_response_content.set_nonce(State::allocate_response_nonce());
 
     response_container.set_dataBus(data_bus_response_content);
+
+    return ProtoCodec::encode_response_container(response_container);
+}
+
+int SchedulerHandler::process_settings_bus_request_content_response(
+        const accelerometer::RequestContainer &content) {
+    auto settings_bus_request_content =
+            ProtoHelper::extract_settings_bus_request_content(content);
+
+    if (ProtoHelper::is_settings_bus_request_content_of_set_suspend_settings_type(
+            settings_bus_request_content)) {
+
+        if (SchedulerHandler::process_settings_bus_request_content_of_set_suspend_settings_type_response() != EXIT_SUCCESS) {
+            return EXIT_FAILURE;
+        }
+    } else if (ProtoHelper::is_settings_bus_request_content_of_set_serve_settings_type(
+            settings_bus_request_content)) {
+
+        if (SchedulerHandler::process_settings_bus_request_content_of_set_serve_settings_type_response() != EXIT_SUCCESS) {
+            return EXIT_FAILURE;
+        }
+    }
+
+    Indicator::toggle_action_success();
+
+    return EXIT_SUCCESS;
+}
+
+int SchedulerHandler::process_settings_bus_request_content_of_set_suspend_settings_type_response() {
+    accelerometer::ResponseContainer response_container;
+
+    accelerometer::SettingsBusResponseContent settings_bus_response_content;
+
+    settings_bus_response_content.set_settingsType(accelerometer::SettingsType::SetSuspend);
+
+    if (LIS2DW12::is_available()) {
+        settings_bus_response_content.set_deviceId(LIS2DW12::get_device_id());
+
+        State::set_suspended(true);
+
+        settings_bus_response_content.set_result(true);
+    } else {
+        settings_bus_response_content.set_deviceId(0);
+
+        settings_bus_response_content.set_result(false);
+    }
+
+    settings_bus_response_content.set_nonce(State::allocate_response_nonce());
+
+    response_container.set_settingsBus(settings_bus_response_content);
+
+    return ProtoCodec::encode_response_container(response_container);
+}
+
+int SchedulerHandler::process_settings_bus_request_content_of_set_serve_settings_type_response() {
+    accelerometer::ResponseContainer response_container;
+
+    accelerometer::SettingsBusResponseContent settings_bus_response_content;
+
+    settings_bus_response_content.set_settingsType(accelerometer::SettingsType::SetServe);
+
+    if (LIS2DW12::is_available()) {
+        settings_bus_response_content.set_deviceId(LIS2DW12::get_device_id());
+
+        State::set_suspended(false);
+
+        settings_bus_response_content.set_result(true);
+    } else {
+        settings_bus_response_content.set_deviceId(0);
+
+        settings_bus_response_content.set_result(false);
+    }
+
+    settings_bus_response_content.set_nonce(State::allocate_response_nonce());
+
+    response_container.set_settingsBus(settings_bus_response_content);
 
     return ProtoCodec::encode_response_container(response_container);
 }

@@ -21,6 +21,7 @@
 
 // Include external proto definitions
 #include "Content/data.h"
+#include "Content/settings.h"
 
 namespace accelerometer {
 
@@ -40,6 +41,10 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
       {
         case FieldNumber::DATABUS:
           set_dataBus(rhs.get_dataBus());
+          break;
+
+        case FieldNumber::SETTINGSBUS:
+          set_settingsBus(rhs.get_settingsBus());
           break;
 
         default:
@@ -62,6 +67,10 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
           set_dataBus(rhs.get_dataBus());
           break;
 
+        case FieldNumber::SETTINGSBUS:
+          set_settingsBus(rhs.get_settingsBus());
+          break;
+
         default:
           break;
       }
@@ -73,7 +82,8 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
     enum class FieldNumber : uint32_t
     {
       NOT_SET = 0,
-      DATABUS = 1
+      DATABUS = 1,
+      SETTINGSBUS = 2
     };
 
     ResponseContainer& operator=(const ResponseContainer& rhs)
@@ -88,6 +98,10 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
       {
         case FieldNumber::DATABUS:
           set_dataBus(rhs.get_dataBus());
+          break;
+
+        case FieldNumber::SETTINGSBUS:
+          set_settingsBus(rhs.get_settingsBus());
           break;
 
         default:
@@ -109,6 +123,10 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
       {
         case FieldNumber::DATABUS:
           set_dataBus(rhs.get_dataBus());
+          break;
+
+        case FieldNumber::SETTINGSBUS:
+          set_settingsBus(rhs.get_settingsBus());
           break;
 
         default:
@@ -160,6 +178,46 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
     inline const DataBusResponseContent& get_dataBus() const { return content_.dataBus_; }
     inline const DataBusResponseContent& dataBus() const { return content_.dataBus_; }
 
+    static constexpr char const* SETTINGSBUS_NAME = "settingsBus";
+    inline bool has_settingsBus() const
+    {
+      return FieldNumber::SETTINGSBUS == which_content_;
+    }
+    inline void clear_settingsBus()
+    {
+      if(FieldNumber::SETTINGSBUS == which_content_)
+      {
+        which_content_ = FieldNumber::NOT_SET;
+        content_.settingsBus_.~SettingsBusResponseContent();
+      }
+    }
+    inline void set_settingsBus(const SettingsBusResponseContent& value)
+    {
+      if(FieldNumber::SETTINGSBUS != which_content_)
+      {
+        init_content(FieldNumber::SETTINGSBUS);
+      }
+      content_.settingsBus_ = value;
+    }
+    inline void set_settingsBus(const SettingsBusResponseContent&& value)
+    {
+      if(FieldNumber::SETTINGSBUS != which_content_)
+      {
+        init_content(FieldNumber::SETTINGSBUS);
+      }
+      content_.settingsBus_ = value;
+    }
+    inline SettingsBusResponseContent& mutable_settingsBus()
+    {
+      if(FieldNumber::SETTINGSBUS != which_content_)
+      {
+        init_content(FieldNumber::SETTINGSBUS);
+      }
+      return content_.settingsBus_;
+    }
+    inline const SettingsBusResponseContent& get_settingsBus() const { return content_.settingsBus_; }
+    inline const SettingsBusResponseContent& settingsBus() const { return content_.settingsBus_; }
+
 
     ::EmbeddedProto::Error serialize(::EmbeddedProto::WriteBufferInterface& buffer) const override
     {
@@ -171,6 +229,13 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
           if(has_dataBus() && (::EmbeddedProto::Error::NO_ERRORS == return_value))
           {
             return_value = content_.dataBus_.serialize_with_id(static_cast<uint32_t>(FieldNumber::DATABUS), buffer, true);
+          }
+          break;
+
+        case FieldNumber::SETTINGSBUS:
+          if(has_settingsBus() && (::EmbeddedProto::Error::NO_ERRORS == return_value))
+          {
+            return_value = content_.settingsBus_.serialize_with_id(static_cast<uint32_t>(FieldNumber::SETTINGSBUS), buffer, true);
           }
           break;
 
@@ -195,6 +260,7 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
         switch(id_tag)
         {
           case FieldNumber::DATABUS:
+          case FieldNumber::SETTINGSBUS:
             return_value = deserialize_content(id_tag, buffer, wire_type);
             break;
 
@@ -238,6 +304,9 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
       {
         case FieldNumber::DATABUS:
           name = DATABUS_NAME;
+          break;
+        case FieldNumber::SETTINGSBUS:
+          name = SETTINGSBUS_NAME;
           break;
         default:
           name = "Invalid FieldNumber";
@@ -331,6 +400,7 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
         content() {}
         ~content() {}
         DataBusResponseContent dataBus_;
+        SettingsBusResponseContent settingsBus_;
       };
       content content_;
 
@@ -349,6 +419,10 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
             new(&content_.dataBus_) DataBusResponseContent;
             break;
 
+          case FieldNumber::SETTINGSBUS:
+            new(&content_.settingsBus_) SettingsBusResponseContent;
+            break;
+
           default:
             break;
          }
@@ -362,6 +436,9 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
         {
           case FieldNumber::DATABUS:
             ::EmbeddedProto::destroy_at(&content_.dataBus_);
+            break;
+          case FieldNumber::SETTINGSBUS:
+            ::EmbeddedProto::destroy_at(&content_.settingsBus_);
             break;
           default:
             break;
@@ -385,6 +462,9 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
           case FieldNumber::DATABUS:
             return_value = content_.dataBus_.deserialize_check_type(buffer, wire_type);
             break;
+          case FieldNumber::SETTINGSBUS:
+            return_value = content_.settingsBus_.deserialize_check_type(buffer, wire_type);
+            break;
           default:
             break;
         }
@@ -405,6 +485,9 @@ class ResponseContainer final: public ::EmbeddedProto::MessageInterface
         {
           case FieldNumber::DATABUS:
             left_chars = content_.dataBus_.to_string(left_chars, indent_level, DATABUS_NAME, first_field);
+            break;
+          case FieldNumber::SETTINGSBUS:
+            left_chars = content_.settingsBus_.to_string(left_chars, indent_level, SETTINGSBUS_NAME, first_field);
             break;
           default:
             break;

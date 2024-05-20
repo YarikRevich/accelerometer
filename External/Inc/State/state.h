@@ -13,6 +13,20 @@
 class State {
 public:
     /**
+     * Checks if the application is suspended.
+     *
+     * @return result of the check.
+     */
+    static bool is_suspended();
+
+    /**
+     * Sets application suspended state value.
+     *
+     * @param value - value of the suspended state.
+     */
+    static void set_suspended(bool value);
+
+    /**
      * Checks if the device is configured.
      *
      * @return result of the check.
@@ -55,6 +69,11 @@ public:
     static Sequence<accelerometer::RequestContainer>* get_request_container_sequence();
 
 private:
+    /**
+     * Represents device suspended state.
+     */
+    static bool suspended;
+
     /**
      * Represents device configured mode.
      */

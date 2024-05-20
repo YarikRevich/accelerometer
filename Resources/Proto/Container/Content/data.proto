@@ -27,7 +27,10 @@ message DataBusResponseContent {
     uint32 deviceId = 1;
     DataType dataType = 2;
     int32 nonce = 3;
+    int32 suspended = 4;
     oneof value {
-        RawDataTypeValue raw = 4;
+        RawDataTypeValue raw = 5;
     }
 }
+
+

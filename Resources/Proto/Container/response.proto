@@ -5,10 +5,12 @@ syntax = "proto3";
 package accelerometer;
 
 import "Content/data.proto";
+import "Content/settings.proto";
 
 // Represents response container sent from the board to the client.
 message ResponseContainer {
     oneof content {
         DataBusResponseContent dataBus = 1;
+        SettingsBusResponseContent settingsBus = 2;
     }
 }

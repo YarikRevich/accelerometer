@@ -497,6 +497,7 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
       set_deviceId(rhs.get_deviceId());
       set_dataType(rhs.get_dataType());
       set_nonce(rhs.get_nonce());
+      set_suspended(rhs.get_suspended());
       if(rhs.get_which_value() != which_value_)
       {
         // First delete the old object in the oneof.
@@ -520,6 +521,7 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
       set_deviceId(rhs.get_deviceId());
       set_dataType(rhs.get_dataType());
       set_nonce(rhs.get_nonce());
+      set_suspended(rhs.get_suspended());
       if(rhs.get_which_value() != which_value_)
       {
         // First delete the old object in the oneof.
@@ -546,7 +548,8 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
       DEVICEID = 1,
       DATATYPE = 2,
       NONCE = 3,
-      RAW = 4
+      SUSPENDED = 4,
+      RAW = 5
     };
 
     DataBusResponseContent& operator=(const DataBusResponseContent& rhs)
@@ -554,6 +557,7 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
       set_deviceId(rhs.get_deviceId());
       set_dataType(rhs.get_dataType());
       set_nonce(rhs.get_nonce());
+      set_suspended(rhs.get_suspended());
       if(rhs.get_which_value() != which_value_)
       {
         // First delete the old object in the oneof.
@@ -578,6 +582,7 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
       set_deviceId(rhs.get_deviceId());
       set_dataType(rhs.get_dataType());
       set_nonce(rhs.get_nonce());
+      set_suspended(rhs.get_suspended());
       if(rhs.get_which_value() != which_value_)
       {
         // First delete the old object in the oneof.
@@ -619,6 +624,14 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
     inline int32_t& mutable_nonce() { return nonce_.get(); }
     inline const int32_t& get_nonce() const { return nonce_.get(); }
     inline int32_t nonce() const { return nonce_.get(); }
+
+    static constexpr char const* SUSPENDED_NAME = "suspended";
+    inline void clear_suspended() { suspended_.clear(); }
+    inline void set_suspended(const int32_t& value) { suspended_ = value; }
+    inline void set_suspended(const int32_t&& value) { suspended_ = value; }
+    inline int32_t& mutable_suspended() { return suspended_.get(); }
+    inline const int32_t& get_suspended() const { return suspended_.get(); }
+    inline int32_t suspended() const { return suspended_.get(); }
 
     FieldNumber get_which_value() const { return which_value_; }
 
@@ -682,6 +695,11 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
         return_value = nonce_.serialize_with_id(static_cast<uint32_t>(FieldNumber::NONCE), buffer, false);
       }
 
+      if((0 != suspended_.get()) && (::EmbeddedProto::Error::NO_ERRORS == return_value))
+      {
+        return_value = suspended_.serialize_with_id(static_cast<uint32_t>(FieldNumber::SUSPENDED), buffer, false);
+      }
+
       switch(which_value_)
       {
         case FieldNumber::RAW:
@@ -723,6 +741,10 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
             return_value = nonce_.deserialize_check_type(buffer, wire_type);
             break;
 
+          case FieldNumber::SUSPENDED:
+            return_value = suspended_.deserialize_check_type(buffer, wire_type);
+            break;
+
           case FieldNumber::RAW:
             return_value = deserialize_value(id_tag, buffer, wire_type);
             break;
@@ -759,6 +781,7 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
       clear_deviceId();
       clear_dataType();
       clear_nonce();
+      clear_suspended();
       clear_value();
 
     }
@@ -776,6 +799,9 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
           break;
         case FieldNumber::NONCE:
           name = NONCE_NAME;
+          break;
+        case FieldNumber::SUSPENDED:
+          name = SUSPENDED_NAME;
           break;
         case FieldNumber::RAW:
           name = RAW_NAME;
@@ -843,6 +869,7 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
       left_chars = deviceId_.to_string(left_chars, indent_level + 2, DEVICEID_NAME, true);
       left_chars = dataType_.to_string(left_chars, indent_level + 2, DATATYPE_NAME, false);
       left_chars = nonce_.to_string(left_chars, indent_level + 2, NONCE_NAME, false);
+      left_chars = suspended_.to_string(left_chars, indent_level + 2, SUSPENDED_NAME, false);
       left_chars = to_string_value(left_chars, indent_level + 2, false);
   
       if( 0 == indent_level) 
@@ -871,6 +898,7 @@ class DataBusResponseContent final: public ::EmbeddedProto::MessageInterface
       EmbeddedProto::uint32 deviceId_ = 0U;
       EmbeddedProto::enumeration<DataType> dataType_ = static_cast<DataType>(0);
       EmbeddedProto::int32 nonce_ = 0;
+      EmbeddedProto::int32 suspended_ = 0;
 
       FieldNumber which_value_ = FieldNumber::NOT_SET;
       union value

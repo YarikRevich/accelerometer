@@ -73,6 +73,28 @@ private:
      * @return status of the data bus request content response processing.
      */
     static int process_data_bus_request_content_of_raw_data_type_response();
+
+    /**
+     * Attempts to process settings bus request content response.
+     *
+     * @param content - given settings bus request content.
+     * @return status of the settings bus request content response processing.
+     */
+    static int process_settings_bus_request_content_response(const accelerometer::RequestContainer& content);
+
+    /**
+     * Attempts to process settings bus request content of set suspend settings type response.
+     *
+     * @return status of the settings bus request content response processing.
+     */
+    static int process_settings_bus_request_content_of_set_suspend_settings_type_response();
+
+    /**
+     * Attempts to process settings bus request content of set serve settings type response.
+     *
+     * @return status of the settings bus request content response processing.
+     */
+    static int process_settings_bus_request_content_of_set_serve_settings_type_response();
 };
 
 #endif //LIGHT_DETECTOR_SCHEDULER_HANDLER_H
