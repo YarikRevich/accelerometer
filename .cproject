@@ -49,21 +49,21 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L4xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../ThirdParty/MEMS/Inc"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Buffer/Request"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Buffer/Response"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Codec"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Helper"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Generated"/>
 									<listOptionValue builtIn="false" value="../ThirdParty/EmbeddedProto/Inc"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Generated/Content"/>
-									<listOptionValue builtIn="false" value="../External/State"/>
-									<listOptionValue builtIn="false" value="../External/Tools/Mutex"/>
-									<listOptionValue builtIn="false" value="../External/Tools/Sequence"/>
-									<listOptionValue builtIn="false" value="../External/Tools/Converter"/>
-									<listOptionValue builtIn="false" value="../External/Sensor"/>
-									<listOptionValue builtIn="false" value="../External/Scheduler"/>
-									<listOptionValue builtIn="false" value="../External/Scheduler/Handler"/>
-									<listOptionValue builtIn="false" value="../External/Tools/Indicator"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Buffer/Request"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Buffer/Response"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Codec"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Helper"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Generated"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Generated/Content"/>
+									<listOptionValue builtIn="false" value="../External/Inc/State"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Tools/Mutex"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Tools/Sequence"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Tools/Converter"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Sensor"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Scheduler"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Scheduler/Handler"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Tools/Indicator"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.829865759" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -82,21 +82,21 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L4xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../ThirdParty/MEMS/Inc"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Buffer/Request"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Buffer/Response"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Codec"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Generated"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Helper"/>
 									<listOptionValue builtIn="false" value="../ThirdParty/EmbeddedProto/Inc"/>
-									<listOptionValue builtIn="false" value="../External/Proto/Generated/Content"/>
-									<listOptionValue builtIn="false" value="../External/State"/>
-									<listOptionValue builtIn="false" value="../External/Tools/Mutex"/>
-									<listOptionValue builtIn="false" value="../External/Tools/Sequence"/>
-									<listOptionValue builtIn="false" value="../External/Tools/Converter"/>
-									<listOptionValue builtIn="false" value="../External/Sensor"/>
-									<listOptionValue builtIn="false" value="../External/Scheduler"/>
-									<listOptionValue builtIn="false" value="../External/Scheduler/Handler"/>
-									<listOptionValue builtIn="false" value="../External/Tools/Indicator"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Buffer/Request"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Buffer/Response"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Codec"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Generated"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Helper"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Proto/Generated/Content"/>
+									<listOptionValue builtIn="false" value="../External/Inc/State"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Tools/Mutex"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Tools/Sequence"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Tools/Converter"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Sensor"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Scheduler"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Scheduler/Handler"/>
+									<listOptionValue builtIn="false" value="../External/Inc/Tools/Indicator"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp.1419621909" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp"/>
 							</tool>
@@ -119,11 +119,10 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="ThirdParty"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MEMS"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="External"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="External"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="ThirdParty"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

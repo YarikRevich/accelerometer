@@ -1,5 +1,5 @@
-class VisualizerMetadataDto:
-    """Represents dto used to hold the metadata for visualizer."""
+class StandardVisualizerMetadataDto:
+    """Represents dto used to hold the metadata for standard visualizer."""
 
     # Represents data type of the received result.
     data_type: str

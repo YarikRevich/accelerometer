@@ -13,15 +13,16 @@ _sym_db = _symbol_database.Default()
 
 
 from proto.Content import data_pb2 as Content_dot_data__pb2
+from proto.Content import settings_pb2 as Content_dot_settings__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rrequest.proto\x12\raccelerometer\x1a\x12\x43ontent/data.proto\"V\n\x10RequestContainer\x12\x37\n\x07\x64\x61taBus\x18\x01 \x01(\x0b\x32$.accelerometer.DataBusRequestContentH\x00\x42\t\n\x07\x63ontentb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rrequest.proto\x12\raccelerometer\x1a\x12\x43ontent/data.proto\x1a\x16\x43ontent/settings.proto\"\x97\x01\n\x10RequestContainer\x12\x37\n\x07\x64\x61taBus\x18\x01 \x01(\x0b\x32$.accelerometer.DataBusRequestContentH\x00\x12?\n\x0bsettingsBus\x18\x02 \x01(\x0b\x32(.accelerometer.SettingsBusRequestContentH\x00\x42\t\n\x07\x63ontentb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'request_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_REQUESTCONTAINER']._serialized_start=52
-  _globals['_REQUESTCONTAINER']._serialized_end=138
+  _globals['_REQUESTCONTAINER']._serialized_start=77
+  _globals['_REQUESTCONTAINER']._serialized_end=228
 # @@protoc_insertion_point(module_scope)

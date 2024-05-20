@@ -1,5 +1,7 @@
 #include "state.h"
 
+bool State::suspended = false;
+
 bool State::device_configured = false;
 
 int State::current_response_nonce = 1;
@@ -11,6 +13,14 @@ Sequence<std::function<int()>> State::task_sequence =
 
 Sequence<accelerometer::RequestContainer> State::request_container_sequence =
         Sequence<accelerometer::RequestContainer>();
+
+bool State::is_suspended() {
+    return suspended;
+}
+
+void State::set_suspended(bool value) {
+    suspended = value;
+};
 
 bool State::is_device_configured() {
     return device_configured;

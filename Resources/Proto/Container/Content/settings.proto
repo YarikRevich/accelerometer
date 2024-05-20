@@ -1,0 +1,28 @@
+// Contains API declaration for board settings bus.
+
+syntax = "proto3";
+
+package accelerometer;
+
+// Represents all the available settings options, which can be modified via settings bus.
+enum SettingsType {
+    SettingsNone = 0; // Stub enum to handle serialization.
+
+    SetSuspend = 1;
+    SetServe = 2;
+}
+
+// Represents settings bus request content send from the client to the board.
+message SettingsBusRequestContent {
+    SettingsType settingsType = 1;
+}
+
+// Represents settings bus response content send to the client from the board.
+message SettingsBusResponseContent {
+    uint32 deviceId = 1;
+    SettingsType settingsType = 2;
+    bool result = 3;
+    uint32 nonce = 4;
+}
+
+

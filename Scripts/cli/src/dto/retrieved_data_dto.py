@@ -26,6 +26,9 @@ class RawDataTypeValue:
         self.y = y
         self.z = z
 
+    def __iter__(self):
+        return iter([self.x, self.y, self.z])
+
 
 class RetrievedDataDto:
     """Represents dto used to hold the result of a 'get_data' command."""
@@ -36,14 +39,21 @@ class RetrievedDataDto:
     # Represents data type of the received result.
     data_type: DataTypeCompound
 
+    # Represents if remote application has been suspended.
+    suspended: bool
+
     # Represents value of the received result.
     value: Union[RawDataTypeValue]
 
     # Represents nonce of the received result.
     nonce: int
 
-    def __init__(self, device_id: int, data_type: DataTypeCompound, value: Union[RawDataTypeValue], nonce: int):
+    def __init__(self, device_id: int, data_type: DataTypeCompound, suspended: bool, value: Union[RawDataTypeValue], nonce: int):
         self.device_id = device_id
         self.data_type = data_type
+        self.suspended = suspended
         self.value = value
         self.nonce = nonce
+
+    def __iter__(self):
+        return iter([self.device_id, self.data_type, self.suspended, list(self.value), self.nonce])
