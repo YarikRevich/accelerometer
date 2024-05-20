@@ -26,9 +26,10 @@ class BaseCommand:
         GetAvailableDevicesCommand.handle()
 
     @staticmethod
-    def get_data(device: str, baud_rate: int, type: str, memory_path: str = os.getenv("HOME"), memorize: bool = True,
-                 memory: str = memory.Common.CSV_MEMORY, memory_shift: int = 10, interruption: int = 0.3, series: int = 1,
-                 live: bool = False, export: str = None, figure: str = visualizer.Common.PLOT_FIGURE) -> None:
+    def get_data(device: str, baud_rate: int, type: str, memory_path: str = Config.get_default_memory_file_location(),
+                 memorize: bool = True, memory: str = memory.Common.CSV_MEMORY, memory_shift: int = 10,
+                 interruption: int = 0.3, series: int = 1, live: bool = False, export: str = None,
+                 figure: str = visualizer.Common.PLOT_FIGURE) -> None:
         """
         Returns sensor data of selected type. The available data types are 'raw', 'full', 'infrared', 'visible'.
         Allows to perform a series of measurements and export that data to a graph view. The available figure types are
@@ -37,13 +38,15 @@ class BaseCommand:
 
         Config.create_get_process_file()
 
-        GetDataCommand.handle(device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type, series,
+        GetDataCommand.handle(device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type,
+                              series,
                               live, export, figure)
 
         Config.remove_get_process_file()
 
     @staticmethod
-    def set_settings(device: str, baud_rate: int, type: str, interruption: int = 0.3, value: Optional[str] = None) -> None:
+    def set_settings(device: str, baud_rate: int, type: str, interruption: int = 0.3,
+                     value: Optional[str] = None) -> None:
         """
         Sets given settings to the board.
         The available settings types are 'set_suspend', 'set_serve'.
