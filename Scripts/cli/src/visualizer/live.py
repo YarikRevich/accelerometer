@@ -30,10 +30,10 @@ class LiveVisualizer:
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 
-    def alter_values(self, unit: RetrievedDataDto) -> None:
-        """Alters a set of values used for visualization."""
+    def set_values(self, values: list[RetrievedDataDto]) -> None:
+        """Sets a set of values used for visualization."""
 
-        self.values.append(unit)
+        self.values = values
 
     def select_plot(self) -> None:
         """Selects plot figure as the output visualization type."""

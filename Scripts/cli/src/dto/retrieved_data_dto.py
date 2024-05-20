@@ -26,6 +26,9 @@ class RawDataTypeValue:
         self.y = y
         self.z = z
 
+    def __iter__(self):
+        return iter([self.x, self.y, self.z])
+
 
 class RetrievedDataDto:
     """Represents dto used to hold the result of a 'get_data' command."""
@@ -51,3 +54,6 @@ class RetrievedDataDto:
         self.suspended = suspended
         self.value = value
         self.nonce = nonce
+
+    def __iter__(self):
+        return iter([self.device_id, self.data_type, self.suspended, list(self.value), self.nonce])

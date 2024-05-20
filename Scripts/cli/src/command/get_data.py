@@ -15,14 +15,17 @@ from tools import print_output
 
 from tools import perform_request_await
 
+from memory import Common
+from memory import CSVMemory
+
 class GetDataCommand:
     """Represents 'get_data' command."""
 
     RAW_TYPE: str = "raw"
 
     @staticmethod
-    def handle(device: str, baud_rate: int, interruption: int, type: str, series: int, live: bool, export: str,
-               figure: str) -> None:
+    def handle(device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str, memory_shift: int,
+               interruption: int, type: str, series: int, live: bool, export: str, figure: str) -> None:
         """Handles the execution of command wrapper."""
 
         if not is_device_available(device):
@@ -30,13 +33,15 @@ class GetDataCommand:
             return
 
         if live:
-            GetDataCommand.__handle_live(device, baud_rate, interruption, type, figure)
+            GetDataCommand.__handle_live(
+                device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type, figure)
         else:
-            GetDataCommand.__handle_standard(device, baud_rate, interruption, type, series, export, figure)
+            GetDataCommand.__handle_standard(
+                device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type, series, export, figure)
 
     @staticmethod
-    def __handle_standard(device: str, baud_rate: int, interruption: int, type: str, series: int, export: str,
-                          figure: str) -> None:
+    def __handle_standard(device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str, memory_shift: int,
+                          interruption: int, type: str, series: int, export: str, figure: str) -> None:
         """Handles the execution of command in a standard view."""
 
         data: list[RetrievedDataDto] = []
@@ -78,11 +83,19 @@ class GetDataCommand:
 
             visualizer.save()
 
+        if memory:
+            memorizer = CSVMemory(memory_path)
+
+            memorizer.export(data)
+
     @staticmethod
-    def __handle_live(device: str, baud_rate: int, interruption: int, type: str, figure: str) -> None:
+    def __handle_live(device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str, memory_shift: int,
+                      interruption: int, type: str, figure: str) -> None:
         """Handles the execution of command in a live view."""
 
         visualizer = LiveVisualizer()
+
+        data: list[RetrievedDataDto] = []
 
         while True:
             unit: RetrievedDataDto
@@ -95,11 +108,19 @@ class GetDataCommand:
                         logging.error("Remote application is suspended.")
                         return
 
+                    data.append(unit)
+
                 case _:
                     logging.error("Given data type is not valid.")
                     return
 
-            visualizer.alter_values(unit)
+            if len(data) >= memory_shift:
+                if memory:
+                    memorizer = CSVMemory(memory_path)
+
+                    memorizer.export(data)
+
+            visualizer.set_values(data)
 
             match figure:
                 case Common.PLOT_FIGURE:

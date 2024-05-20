@@ -2,10 +2,10 @@ class Common:
     """Represents helpful visualizer functionality."""
 
     # Represents 'plot' type of plot.
-    PLOT_FIGURE = "plot"
+    PLOT_FIGURE: str = "plot"
 
     # Represents 'scatter' type of plot.
-    SCATTER_FIGURE = "scatter"
+    SCATTER_FIGURE: str = "scatter"
 
     # Represents 'stairs' type of plot.
-    STAIRS_FIGURE = "stairs"
+    STAIRS_FIGURE: str = "stairs"
