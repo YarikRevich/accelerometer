@@ -4,19 +4,22 @@ import time
 from middleware import is_device_available
 from middleware import is_export_valid
 
-from visualizer import Common
+import visualizer
 from visualizer import LiveVisualizer
 from visualizer import StandardVisualizer
+
+from memory import Common
+from memory import CSVMemory
 
 from dto import RetrievedDataDto
 from dto import StandardVisualizerMetadataDto
 from client import Client
-from tools import print_output
 
+from tools import print_output
 from tools import perform_request_await
 
-from memory import Common
-from memory import CSVMemory
+from threading import Thread
+
 
 class GetDataCommand:
     """Represents 'get_data' command."""
@@ -37,7 +40,8 @@ class GetDataCommand:
                 device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type, figure)
         else:
             GetDataCommand.__handle_standard(
-                device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type, series, export, figure)
+                device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type, series, export,
+                figure)
 
     @staticmethod
     def __handle_standard(device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str, memory_shift: int,
@@ -49,7 +53,7 @@ class GetDataCommand:
         for _ in range(series):
             match type:
                 case GetDataCommand.RAW_TYPE:
-                    unit = GetDataCommand.process_get_raw_data(device, baud_rate, interruption)
+                    unit = GetDataCommand.__process_get_raw_data(device, baud_rate, interruption)
 
                     if unit.suspended == 1:
                         logging.error("Remote application is suspended.")
@@ -65,26 +69,32 @@ class GetDataCommand:
         logging.info("Data has been successfully retrieved.")
 
         if series > 1 and is_export_valid(export):
-            visualizer = StandardVisualizer(export, data, StandardVisualizerMetadataDto(type, series))
+            view = StandardVisualizer(export, data, StandardVisualizerMetadataDto(type, series))
 
             match figure:
-                case Common.SCATTER_FIGURE:
-                    visualizer.select_scatter()
+                case visualizer.Common.SCATTER_FIGURE:
+                    view.select_scatter()
 
-                case Common.PLOT_FIGURE:
-                    visualizer.select_plot()
+                case visualizer.Common.PLOT_FIGURE:
+                    view.select_plot()
 
-                case Common.STAIRS_FIGURE:
-                    visualizer.select_stairs()
+                case visualizer.Common.STAIRS_FIGURE:
+                    view.select_stairs()
 
                 case _:
                     logging.error("Given figure type is not valid with standard view.")
                     return
 
-            visualizer.save()
+            view.save()
 
-        if memory:
-            memorizer = CSVMemory(memory_path)
+        if memorize:
+            match memory:
+                case Common.CSV_MEMORY:
+                    memorizer = CSVMemory(memory_path)
+
+                case _:
+                    logging.error("Given memory type is not valid with.")
+                    return
 
             memorizer.export(data)
 
@@ -93,16 +103,52 @@ class GetDataCommand:
                       interruption: int, type: str, figure: str) -> None:
         """Handles the execution of command in a live view."""
 
-        visualizer = LiveVisualizer()
-
         data: list[RetrievedDataDto] = []
 
+        view = LiveVisualizer(data)
+
+        Thread(
+            target=GetDataCommand.__process_get_raw_data_concurrent,
+            args=([device, baud_rate, type, interruption, data])).start()
+
         while True:
+            perform_request_await()
+
+            if memorize:
+                if len(data) >= memory_shift:
+                    match memory:
+                        case Common.CSV_MEMORY:
+                            memorizer = CSVMemory(memory_path)
+
+                        case _:
+                            logging.error("Given memory type is not valid with.")
+                            return
+
+                    memorizer.export(data)
+
+            match figure:
+                case visualizer.Common.PLOT_FIGURE:
+                    view.select_plot()
+
+                case _:
+                    logging.error("Given figure type is not valid with live view.")
+                    return
+
+            view.draw()
+
+    @staticmethod
+    def __process_get_raw_data_concurrent(
+            device: str, baud_rate: int, type: str, interruption: int, data: list[RetrievedDataDto]) -> None:
+        """Processes request to retrieve 'raw' data from the device in a concurrent way."""
+
+        while True:
+            perform_request_await()
+
             unit: RetrievedDataDto
 
             match type:
                 case GetDataCommand.RAW_TYPE:
-                    unit = GetDataCommand.process_get_raw_data(device, baud_rate, interruption)
+                    unit = GetDataCommand.__process_get_raw_data(device, baud_rate, interruption)
 
                     if unit.suspended == 1:
                         logging.error("Remote application is suspended.")
@@ -114,28 +160,8 @@ class GetDataCommand:
                     logging.error("Given data type is not valid.")
                     return
 
-            if len(data) >= memory_shift:
-                if memory:
-                    memorizer = CSVMemory(memory_path)
-
-                    memorizer.export(data)
-
-            visualizer.set_values(data)
-
-            match figure:
-                case Common.PLOT_FIGURE:
-                    visualizer.select_plot()
-
-                case _:
-                    logging.error("Given figure type is not valid with live view.")
-                    return
-
-            visualizer.draw()
-
-            perform_request_await()
-
     @staticmethod
-    def process_get_raw_data(device: str, baud_rate: int, interruption: int) -> RetrievedDataDto:
+    def __process_get_raw_data(device: str, baud_rate: int, interruption: int) -> RetrievedDataDto:
         """Processes request to retrieve 'raw' data from the device"""
 
         with Client(device, baud_rate, interruption) as client:

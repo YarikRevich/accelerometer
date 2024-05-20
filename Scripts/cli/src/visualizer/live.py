@@ -17,7 +17,9 @@ class LiveVisualizer:
     # Represents created figure plot.
     plot: plt.Axes
 
-    def __init__(self):
+    def __init__(self, values: list[RetrievedDataDto]):
+        self.values = values
+
         figure = plt.Figure(figsize=(10, 5), dpi=80)
 
         self.plot = figure.add_subplot(111)
@@ -29,11 +31,6 @@ class LiveVisualizer:
         self.canvas = FigureCanvasTkAgg(figure, master=window)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-
-    def set_values(self, values: list[RetrievedDataDto]) -> None:
-        """Sets a set of values used for visualization."""
-
-        self.values = values
 
     def select_plot(self) -> None:
         """Selects plot figure as the output visualization type."""
