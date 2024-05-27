@@ -111,11 +111,15 @@ class GetDataCommand:
             target=GetDataCommand.__process_get_raw_data_concurrent,
             args=([device, baud_rate, type, interruption, data])).start()
 
+        memory_counter: int = 0
+
         while True:
             perform_request_await()
 
+            memory_counter += 1
+
             if memorize:
-                if len(data) >= memory_shift:
+                if len(data) % memory_shift == 0:
                     match memory:
                         case Common.CSV_MEMORY:
                             memorizer = CSVMemory(memory_path)
