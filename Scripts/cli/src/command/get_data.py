@@ -115,7 +115,7 @@ class GetDataCommand:
             perform_request_await()
 
             if memorize:
-                if len(data) >= memory_shift:
+                if len(data) % memory_shift == 0:
                     match memory:
                         case Common.CSV_MEMORY:
                             memorizer = CSVMemory(memory_path)
