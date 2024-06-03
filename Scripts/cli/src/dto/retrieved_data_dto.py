@@ -48,12 +48,23 @@ class RetrievedDataDto:
     # Represents nonce of the received result.
     nonce: int
 
-    def __init__(self, device_id: int, data_type: DataTypeCompound, suspended: bool, value: Union[RawDataTypeValue], nonce: int):
+    # Represents timestamp of the received result.
+    timestamp: str
+
+    def __init__(
+            self,
+            device_id: int,
+            data_type: DataTypeCompound,
+            suspended: bool,
+            value: Union[RawDataTypeValue],
+            nonce: int,
+            timestamp: str):
         self.device_id = device_id
         self.data_type = data_type
         self.suspended = suspended
         self.value = value
         self.nonce = nonce
+        self.timestamp = timestamp
 
     def __iter__(self):
-        return iter([self.device_id, self.data_type, self.suspended, list(self.value), self.nonce])
+        return iter([self.device_id, self.data_type, self.suspended, list(self.value), self.nonce, self.timestamp])

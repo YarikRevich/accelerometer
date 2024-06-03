@@ -28,7 +28,8 @@ class GetDataCommand:
 
     @staticmethod
     def handle(device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str, memory_shift: int,
-               interruption: int, type: str, series: int, live: bool, export: str, figure: str) -> None:
+               memory_shift_interrupt: int, memory_interrupt: int, interruption: int, type: str, series: int, live: bool,
+               export: str, figure: str) -> None:
         """Handles the execution of command wrapper."""
 
         if not is_device_available(device):
@@ -37,14 +38,14 @@ class GetDataCommand:
 
         if live:
             GetDataCommand.__handle_live(
-                device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type, figure)
+                device, baud_rate, memory_path, memorize, memory, memory_shift, memory_shift_interrupt, memory_interrupt,
+                interruption, type, figure)
         else:
             GetDataCommand.__handle_standard(
-                device, baud_rate, memory_path, memorize, memory, memory_shift, interruption, type, series, export,
-                figure)
+                device, baud_rate, memory_path, memorize, memory, interruption, type, series, export, figure)
 
     @staticmethod
-    def __handle_standard(device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str, memory_shift: int,
+    def __handle_standard(device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str,
                           interruption: int, type: str, series: int, export: str, figure: str) -> None:
         """Handles the execution of command in a standard view."""
 
@@ -100,7 +101,7 @@ class GetDataCommand:
 
     @staticmethod
     def __handle_live(device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str, memory_shift: int,
-                      interruption: int, type: str, figure: str) -> None:
+                      memory_shift_interrupt: int, memory_interrupt: int, interruption: int, type: str, figure: str) -> None:
         """Handles the execution of command in a live view."""
 
         data: list[RetrievedDataDto] = []
@@ -109,22 +110,11 @@ class GetDataCommand:
 
         Thread(
             target=GetDataCommand.__process_get_raw_data_concurrent,
-            args=([device, baud_rate, type, interruption, data])).start()
+            args=([device, baud_rate, memory_path, memorize, memory, memory_shift, memory_shift_interrupt,
+                   memory_interrupt, type, interruption, data])).start()
 
         while True:
             perform_request_await()
-
-            if memorize:
-                if len(data) % memory_shift == 0:
-                    match memory:
-                        case Common.CSV_MEMORY:
-                            memorizer = CSVMemory(memory_path)
-
-                        case _:
-                            logging.error("Given memory type is not valid with.")
-                            return
-
-                    memorizer.export(data)
 
             match figure:
                 case visualizer.Common.PLOT_FIGURE:
@@ -138,11 +128,28 @@ class GetDataCommand:
 
     @staticmethod
     def __process_get_raw_data_concurrent(
-            device: str, baud_rate: int, type: str, interruption: int, data: list[RetrievedDataDto]) -> None:
+            device: str, baud_rate: int, memory_path: str, memorize: bool, memory: str, memory_shift: int,
+            memory_shift_interrupt: int, memory_interrupt: int, type: str, interruption: int, data: list[RetrievedDataDto]) -> None:
         """Processes request to retrieve 'raw' data from the device in a concurrent way."""
 
         while True:
+            time.sleep(memory_interrupt)
+
             perform_request_await()
+
+            if memorize:
+                if len(data) != 0 and len(data) % memory_shift == 0:
+                    match memory:
+                        case Common.CSV_MEMORY:
+                            memorizer = CSVMemory(memory_path)
+
+                        case _:
+                            logging.error("Given memory type is not valid with.")
+                            return
+
+                    memorizer.export(data)
+
+                    time.sleep(memory_shift_interrupt)
 
             unit: RetrievedDataDto
 
