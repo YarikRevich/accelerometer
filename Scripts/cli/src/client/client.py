@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import Union
+from datetime import datetime
 
 from serial import Serial
 from serial import SerialException
@@ -16,6 +16,7 @@ from dto import RetrievedDataDto
 from dto import RawDataTypeValue
 from dto import SettingsTypeCompound
 from dto import SetSettingsDto
+
 
 class Client:
     """Represents client used to connect to remote device via serial port."""
@@ -86,7 +87,8 @@ class Client:
             data.dataBus.suspended,
             RawDataTypeValue(
                 data.dataBus.raw.x, data.dataBus.raw.y, data.dataBus.raw.z),
-            data.dataBus.nonce)
+            data.dataBus.nonce,
+            datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
 
     def __send_settings_bus_request_content(self, type: SettingsBus.SettingsType) -> Response.ResponseContainer:
         """Sends request to the board via settings bus to set settings."""
