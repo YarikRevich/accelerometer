@@ -1,28 +1,5 @@
 #include "sensor.h"
 
-typedef struct {
-    uint8_t lp_mode: 2;
-    uint8_t mode: 2;
-    uint8_t odr: 4;
-} lis2dw12_ctrl1_t;
-
-typedef struct {
-    uint8_t slp_mode: 2;
-    uint8_t not_used_01: 1;
-    uint8_t h_lactive: 1;
-    uint8_t lir: 1;
-    uint8_t pp_od: 1;
-    uint8_t st: 2;
-} lis2dw12_ctrl3_t;
-
-typedef struct {
-    uint8_t not_used_01: 2;
-    uint8_t low_noise: 1;
-    uint8_t fds: 1;
-    uint8_t fs: 2;
-    uint8_t bw_filt: 2;
-} lis2dw12_ctrl6_t;
-
 void LIS2DW12::init() {
     enable();
 }
@@ -49,7 +26,6 @@ void LIS2DW12::enable() {
 
     ctrl3.slp_mode = ((uint8_t) LIS2DW12_XL_ODR_12Hz5 & 0x30U) >> 4;
     write_byte_i2c(LIS2DW12_CTRL3, (uint8_t *) &ctrl3, 1);
-
 
     lis2dw12_ctrl1_t ctrll1;
     lis2dw12_ctrl6_t ctrl6;
