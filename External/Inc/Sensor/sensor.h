@@ -24,6 +24,38 @@
 extern I2C_HandleTypeDef hi2c1;
 
 /**
+ * Represents structure used for CTRL1 register.
+ */
+typedef struct {
+    uint8_t lp_mode: 2;
+    uint8_t mode: 2;
+    uint8_t odr: 4;
+} lis2dw12_ctrl1_t;
+
+/**
+ * Represents structure used for CTRL3 register.
+ */
+typedef struct {
+    uint8_t slp_mode: 2;
+    uint8_t not_used_01: 1;
+    uint8_t h_lactive: 1;
+    uint8_t lir: 1;
+    uint8_t pp_od: 1;
+    uint8_t st: 2;
+} lis2dw12_ctrl3_t;
+
+/**
+ * Represents structure used for CTRL6 register.
+ */
+typedef struct {
+    uint8_t not_used_01: 2;
+    uint8_t low_noise: 1;
+    uint8_t fds: 1;
+    uint8_t fs: 2;
+    uint8_t bw_filt: 2;
+} lis2dw12_ctrl6_t;
+
+/**
  * Represents driver implementation for LIS2DW12 accelerometer sensor.
  */
 class LIS2DW12 {
