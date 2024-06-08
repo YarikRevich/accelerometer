@@ -87,8 +87,7 @@ class Client:
             data.dataBus.suspended,
             RawDataTypeValue(
                 data.dataBus.raw.x, data.dataBus.raw.y, data.dataBus.raw.z),
-            data.dataBus.nonce,
-            datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+            data.dataBus.nonce)
 
     def __send_settings_bus_request_content(self, type: SettingsBus.SettingsType) -> Response.ResponseContainer:
         """Sends request to the board via settings bus to set settings."""
